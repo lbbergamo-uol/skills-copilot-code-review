@@ -12,8 +12,18 @@
     />
   </head>
   <body>
-    <div class="announcement-banner">
-      📢 As inscrições para atividades estão abertas até o final do mês. Não perca sua vaga!
+    <!-- Announcement banner (populated by JS) -->
+    <div id="announcement-banner" class="announcement-banner hidden" role="alert" aria-live="polite">
+      <div class="announcement-content">
+        <span class="announcement-icon" aria-hidden="true">📢</span>
+        <span id="announcement-text"></span>
+        <span class="announcement-expiry" id="announcement-expiry"></span>
+      </div>
+      <div class="announcement-nav hidden" id="announcement-nav">
+        <button class="ann-nav-btn" id="ann-prev" aria-label="Anúncio anterior">&#8249;</button>
+        <span class="ann-counter" id="ann-counter">1 / 1</span>
+        <button class="ann-nav-btn" id="ann-next" aria-label="Próximo anúncio">&#8250;</button>
+      </div>
     </div>
     <header>
       <h1>Mergington High School</h1>
@@ -25,6 +35,10 @@
             <span>Entrar</span>
           </button>
           <div id="user-info" class="hidden">
+            <button id="manage-announcements-button" class="icon-button" aria-label="Gerenciar anúncios" title="Gerenciar Anúncios">
+              <span>📢</span>
+              <span>Anúncios</span>
+            </button>
             <span id="display-name"></span>
             <button id="logout-button">Sair</button>
           </div>
@@ -134,6 +148,54 @@
           <button type="submit">Entrar</button>
         </form>
         <div id="login-message" class="hidden message"></div>
+      </div>
+    </div>
+
+    <!-- Announcements Management Modal -->
+    <div id="announcements-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="announcements-modal-title">
+      <div class="modal-content modal-large">
+        <button class="close-modal-btn" id="close-announcements-modal" aria-label="Fechar">&times;</button>
+        <h3 id="announcements-modal-title">📢 Gerenciar Anúncios</h3>
+        <div class="announcements-manager">
+          <!-- Left panel: list -->
+          <div class="announcements-list-panel">
+            <div class="panel-header">
+              <h4>Todos os Anúncios</h4>
+              <button id="new-announcement-btn" class="btn-add" aria-label="Novo anúncio">+ Novo</button>
+            </div>
+            <div id="announcements-manager-list" class="manager-list">
+              <p class="list-loading">Carregando...</p>
+            </div>
+          </div>
+          <!-- Right panel: form -->
+          <div class="announcements-form-panel" id="announcements-form-panel">
+            <h4 id="announcement-form-title">Novo Anúncio</h4>
+            <form id="announcement-form" novalidate>
+              <input type="hidden" id="announcement-id" value="" />
+              <div class="form-group">
+                <label for="ann-message">Mensagem <span class="required" aria-hidden="true">*</span></label>
+                <textarea id="ann-message" required rows="3" maxlength="300"
+                  placeholder="Digite a mensagem do anúncio..." aria-describedby="ann-char-hint"></textarea>
+                <div class="char-counter" id="ann-char-hint"><span id="ann-char-count">0</span>/300 caracteres</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="ann-start-date">Data de início <span class="optional">(opcional)</span></label>
+                  <input type="date" id="ann-start-date" />
+                </div>
+                <div class="form-group">
+                  <label for="ann-expiry-date">Data de expiração <span class="required" aria-hidden="true">*</span></label>
+                  <input type="date" id="ann-expiry-date" required />
+                </div>
+              </div>
+              <div id="announcement-form-message" class="hidden message" role="alert"></div>
+              <div class="form-actions">
+                <button type="button" id="cancel-announcement-btn" class="btn-secondary">Cancelar</button>
+                <button type="submit" id="save-announcement-btn" class="btn-primary">Salvar Anúncio</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
 
